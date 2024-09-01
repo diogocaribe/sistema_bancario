@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "sistema-bancario-diome"
+version = "0.1.0"
+description = ""
+authors = ["Diogo Caribé <dogosousa@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytest = "^8.3.2"
+ruff = "^0.6.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint]
+select = ["E", "F"]
