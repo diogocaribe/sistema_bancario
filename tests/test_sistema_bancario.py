@@ -1,4 +1,4 @@
-from sistema_bancario.sistema_bancario import numero_positivo, deposito, saldo
+from sistema_bancario.sistema_bancario import numero_positivo, depositar, exibir_saldo
 
 _saldo = 10
 extrato = [10]
@@ -26,12 +26,12 @@ def test_numero_positivo_float_negativo():
 
 
 def test_deposito_numero_negativo():
-    assert deposito(valor, _saldo, extrato) == 'Depositos devem ser números positivos'
+    assert depositar(valor, _saldo, extrato) == 'Depositos devem ser números positivos'
 
 
 def test_deposito_numero_positivo():
-    assert deposito(valor, _saldo, extrato) == (10, 20)
+    assert depositar(valor, _saldo, extrato) == (10, 20)
 
 
 def test_saldo_unica_transacao():
-    assert _saldo == saldo(extrato)
+    assert _saldo == exibir_saldo(extrato)
