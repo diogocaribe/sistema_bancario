@@ -1,27 +1,26 @@
 from sistema_bancario import (
-    deposito,
-    saque,
-    saldo,
+    depositar,
+    sacar,
+    exibir_saldo,
     historico_transacao,
     menu,
-    extrato,
+    exibir_extrato,
 )
 
 
 while True:
-    opcao = input(menu)
+    opcao = input(menu())
 
     if opcao == 'd':
-        valor = float(input('Valor do depósito R$: '))
-        deposito(valor, saldo(historico_transacao),
-                 extrato(historico_transacao))
+        valor = float(input('\n Valor do depósito R$: '))
+        depositar(valor, exibir_saldo(historico_transacao), exibir_extrato())
         continue
 
     if opcao == 's':
-        saque()
+        sacar()
 
     if opcao == 'e':
-        historico_transacao()
+        exibir_extrato()
 
     if opcao == 'q':
         break

@@ -27,18 +27,18 @@ Operações:
 #####################################################
     # Utilizar funções para otimizar o código
         Separar em funções:
-            Deposito
+            Depositar
                 Argumentos (positional only):
                     saldo, valor, extrato
                 Retorno:
                     saldo e extrato
-            Saque:
+            Sacar:
                 Argumentos (keyword only):
                     saldo, valor, extrato, limite,
                     numero_saque, limite_saque
                 Retorno:
                     saldo, extrato
-            Extrato:
+            Visualizar historico (extrato):
                 Argumentos (positional only e keyword only):
                     posicionais: saldo
                     nomeados: extrato
@@ -46,7 +46,7 @@ Operações:
                     Imprimir o extrato
 
         Criar duas funções:
-            Criar cliente:
+            Criar usuário (cliente do banco):
                 Armazenar em uma lista (nome,
                 data nascimento, cpf, endereço)
 
@@ -55,7 +55,7 @@ Operações:
                 Armazenar somente os numeros do CPF. Retirar pontos e traço
                 CPF é unique (não cadastrar 2 CPF)
 
-            Criar conta corrente
+            Criar conta corrente:
                 Conta é composta por: agencia, numero da conta e usuario
                 Número da conta é sequencial iniciando em 1
                 Número da Agencia é fixo: '0001'
@@ -69,18 +69,23 @@ Operações:
 
 """
 
-menu = """
-[d] Depositar
-[s] Sacar
-[e] Extrato
-[q] Sair
-"""
 
-saque = 0
+sacar = 0
 limite_saque = 500
 historico_transacao = []
 numero_saques = 0
 LIMITE_SAQUES = 3
+
+
+def menu():
+    print('\n Escolha a opção desejada:')
+    menu = """
+        [d] Depositar
+        [s] Sacar
+        [e] Extrato
+        [q] Sair
+    """
+    return menu
 
 
 def numero_positivo(num: float) -> bool:
@@ -98,21 +103,29 @@ def numero_positivo(num: float) -> bool:
         return False
 
 
-def deposito(valor: float, saldo: float, extrato: str):
+def depositar(valor: float, saldo: float, extrato: str, /):
+    """Função para depositar dinheiro na conta
+
+    Args:
+        Todos devem ser positional only
+        valor (float): Valor financeiro para ser depositado em conta
+        saldo (float): Valor financeiro existente em conta
+        extrato (str): Histórico de transações na conta
+
+    Returns:
+        _type_: _description_
+    """
     if not numero_positivo(valor):
         print('Depositos devem ser números positivos')
         return 'Depositos devem ser números positivos'
+
     if numero_positivo(valor):
         saldo += valor
         historico_transacao.append((datetime.now(), valor))
         return valor, saldo
 
 
-def saldo(historico_transacao: list):
-    return sum(tupla[1] for tupla in historico_transacao)
-
-
-def saque(extrato: list):
+def sacar(saldo, valor, extrato, limite, numero_saque, limite_saque):
     numero_saques += 1
     if numero_saques > LIMITE_SAQUES:
         print('Sque não permitito. Limite de três saques diários.')
@@ -129,11 +142,42 @@ def saque(extrato: list):
     return (saldo, extrato)
 
 
-def extrato(historico_transacao: list):
-    if not historico_transacao:
-        print('Não há registro de transações na conta.')
-    
-    print('Extrato Conta Bancaria')
-    [print(f'{v[0].strftime('%H:%M:%S')} R$ {v[1]:.2f}') for v in historico_transacao]
+def exibir_saldo(historico_transacao: list):
+    return sum(tupla[1] for tupla in historico_transacao)
 
-    print(f'Saldo: R$ {saldo(historico_transacao)}')
+
+def exibir_extrato():
+    txt_cabecalho = '============ Extrato Conta Bancária ============'
+    len_cabecalho = len(txt_cabecalho)
+    rodape = '=' * len_cabecalho
+
+    cabecalho = print(f'\n{rodape}\n{txt_cabecalho}\n{rodape}')
+
+    if not historico_transacao:
+        cabecalho
+        print('\n    Não há registro de transações na conta')
+        print('\n')
+        print(rodape)
+        print('\n ')
+
+
+    if  historico_transacao:
+        cabecalho
+        for v in historico_transacao:
+            data_hora = v[0].strftime('%d/%m/%Y %H:%M:%S')
+            valor_ = f'R$: {v[1]:.2f}'
+            valor = f'{valor_:>28}'
+            print(f'{data_hora} {valor}')
+        print(rodape)
+
+        saldo = f'Saldo: R$ {exibir_saldo(historico_transacao)}'
+        print(f'{saldo:>48}')
+        print(rodape)
+
+
+def criar_usuario(usuario: str):
+    return NotImplemented
+
+
+def criar_conta_corrente(usuario: str):
+    return NotImplemented
