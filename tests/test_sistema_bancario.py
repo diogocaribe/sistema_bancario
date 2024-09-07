@@ -1,4 +1,4 @@
-from sistema_bancario.sistema_bancario import numero_positivo, depositar, exibir_saldo, menu
+from sistema_bancario.sistema_bancario import numero_positivo, depositar, exibir_saldo, menu, sacar
 
 _saldo = 10
 extrato = [10]
@@ -48,3 +48,77 @@ def test_menu(mocker):
         [q] Sair
     """
     assert result == expected_result
+
+
+def test_sacar_sucesso(conta_info_sacar):
+
+    resultado = sacar(
+        saldo=['saldo_inicial'],
+        valor_saque=['valor_saque'],
+        extrato=['extrato'],
+        qtd_saque_dia=['numero_saque'],
+        limite_saque_dia=['limite_valor_saque_diario'],
+        limite_saque_operacao=['limite_valor_saque_operacao'],
+    )
+
+    assert resultado == 800.0
+
+
+def test_limite_saques_diarios():
+    saldo_inicial = 1000.0
+    valor_saque = 200.0
+    extrato = []
+    numero_saque = 3
+    limite_valor_saque_diario = 1000.0
+    limite_valor_saque_operacao = 500.0
+
+    resultado = sacar(
+        saldo=saldo_inicial,
+        valor_saque=valor_saque,
+        extrato=extrato,
+        numero_saques=numero_saques,
+        limite_saque_dia=limite_valor_saque_diario,
+        limite_saque_operacao=limite_valor_saque_operacao,
+    )
+
+    assert resultado == 'Saque não permitido. Limite de três saques diários.'
+
+
+def test_valor_saque_excede_limite():
+    saldo_inicial = 1000.0
+    valor_saque = 600.0
+    extrato = []
+    numero_saques = 1
+    limite_valor_saque_diario = 1000.0
+    limite_valor_saque_operacao = 500.0
+
+    resultado = sacar(
+        saldo=saldo_inicial,
+        valor_saque=valor_saque,
+        extrato=extrato,
+        numero_saques=numero_saques,
+        limite_saque_dia=limite_valor_saque_diario,
+        limite_saque_operacao=limite_valor_saque_operacao,
+    )
+
+    assert resultado == 'Saque indisponível. Valor solicitado maior que o permitido.'
+
+
+def test_saldo_insuficiente():
+    saldo_inicial = 100.0
+    valor_saque = 200.0
+    extrato = []
+    numero_saques = 1
+    limite_valor_saque_diario = 1000.0
+    limite_valor_saque_operacao = 500.0
+
+    resultado = sacar(
+        saldo=saldo_inicial,
+        valor_saque=valor_saque,
+        extrato=extrato,
+        numero_saques=numero_saques,
+        limite_saque_dia=limite_valor_saque_diario,
+        limite_saque_operacao=limite_valor_saque_operacao,
+    )
+
+    assert resultado == 'Saldo indisponível.'
