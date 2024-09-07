@@ -1,4 +1,4 @@
-from sistema_bancario.sistema_bancario import numero_positivo, depositar, exibir_saldo
+from sistema_bancario.sistema_bancario import numero_positivo, depositar, exibir_saldo, menu
 
 _saldo = 10
 extrato = [10]
@@ -35,3 +35,16 @@ def test_deposito_numero_positivo():
 
 def test_saldo_unica_transacao():
     assert _saldo == exibir_saldo(extrato)
+
+
+def test_menu(mocker):
+    # Mockar `input`, mas a entrada não afeta o resultado.
+    mocker.patch('builtins.input', return_value='')
+    result = menu()
+    expected_result = """
+        [d] Depositar
+        [s] Sacar
+        [e] Extrato
+        [q] Sair
+    """
+    assert result == expected_result
