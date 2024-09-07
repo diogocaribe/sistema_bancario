@@ -63,59 +63,40 @@ def test_sacar_sucesso(conta_info_sacar):
     assert resultado == 800.0
 
 
-def test_limite_saques_diarios():
-    saldo_inicial = 1000.0
-    valor_saque = 200.0
-    extrato = [],
-    limite_valor_saque_diario = 1000.0
-    limite_valor_saque_operacao = 500.0
-
+def test_excedeu_valor_saque(conta_info_sacar):
+    valor_saque = 600.00
     resultado = sacar(
-        saldo=saldo_inicial,
+        saldo=conta_info_sacar['saldo'],
         valor_saque=valor_saque,
-        extrato=extrato,
-        limite_valor_saque_dia=limite_valor_saque_diario,
-        limite_valor_saque_operacao=limite_valor_saque_operacao,
+        extrato=conta_info_sacar['extrato'],
+        qtd_operacao_saque_dia=conta_info_sacar['qtd_operacao_saque_dia'],
+        limite_valor_saque_operacao=conta_info_sacar['limite_valor_saque_operacao']
     )
 
-    assert resultado == 'Saque não permitido. Limite de três saques diários.'
+    assert resultado == 'Saque indisponivel. Valor solicitado maior que o permitido.'
 
 
-def test_valor_saque_excede_limite():
-    saldo_inicial = 1000.0
-    valor_saque = 600.0
-    extrato = []
-    numero_saques = 1
-    limite_valor_saque_diario = 1000.0
-    limite_valor_saque_operacao = 500.0
-
+def test_excedeu_saldo(conta_info_sacar):
+    saldo = 100.00
     resultado = sacar(
-        saldo=saldo_inicial,
-        valor_saque=valor_saque,
-        extrato=extrato,
-        numero_saques=numero_saques,
-        limite_valor_saque_dia=limite_valor_saque_diario,
-        limite_valor_saque_operacao=limite_valor_saque_operacao,
-    )
-
-    assert resultado == 'Saque indisponível. Valor solicitado maior que o permitido.'
-
-
-def test_saldo_insuficiente():
-    saldo_inicial = 100.0
-    valor_saque = 200.0
-    extrato = []
-    numero_saques = 1
-    limite_valor_saque_diario = 1000.0
-    limite_valor_saque_operacao = 500.0
-
-    resultado = sacar(
-        saldo=saldo_inicial,
-        valor_saque=valor_saque,
-        extrato=extrato,
-        numero_saques=numero_saques,
-        limite_valor_saque_dia=limite_valor_saque_diario,
-        limite_valor_saque_operacao=limite_valor_saque_operacao,
+        saldo=saldo,
+        valor_saque=conta_info_sacar['valor_saque'],
+        extrato=conta_info_sacar['extrato'],
+        qtd_operacao_saque_dia=conta_info_sacar['qtd_operacao_saque_dia'],
+        limite_valor_saque_operacao=conta_info_sacar['limite_valor_saque_operacao']
     )
 
     assert resultado == 'Saldo indisponível.'
+
+
+def test_excedeu_num_operacao(conta_info_sacar):
+    qtd_operacao_saque_dia=4
+    resultado = sacar(
+        saldo=conta_info_sacar['saldo'],
+        valor_saque=conta_info_sacar['valor_saque'],
+        extrato=conta_info_sacar['extrato'],
+        qtd_operacao_saque_dia=qtd_operacao_saque_dia,
+        limite_valor_saque_operacao=conta_info_sacar['limite_valor_saque_operacao']
+    )
+
+    assert resultado == 'Limite de três saques diários.'

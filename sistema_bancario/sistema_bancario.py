@@ -149,23 +149,27 @@ def sacar(
     Returns:
         str: Extrato impresso.
     """
-    
+
     excedeu_saldo = valor_saque > saldo
     excedeu_qtd_operacao_saque_dia = qtd_operacao_saque_dia > LIMITE_SAQUES
     excedeu_valor_saque = valor_saque > limite_valor_saque_operacao
 
-    if excedeu_qtd_operacao_saque_dia:
-        print('Saque não permitito. Limite de três saques diários.')
+    if excedeu_valor_saque:
+        print('Saque indisponivel. Valor solicitado maior que o permitido.')
+        return 'Saque indisponivel. Valor solicitado maior que o permitido.'
+
+    elif excedeu_saldo:
+        print('Saldo indisponivel.')
+        return 'Saldo indisponível.'
+
+    elif excedeu_qtd_operacao_saque_dia:
+        print('Limite de três saques diários.')
+        return 'Limite de três saques diários.'
 
     else:
-        if excedeu_valor_saque:
-            print('Saque indisponivel. Valor solicitado maior que o permitido.')
-        if excedeu_saldo:
-            print('Saldo indisponivel.')
-        else:
-            saldo -= valor_saque
-            extrato.append(-valor_saque)
-            qtd_operacao_saque_dia += 1
+        saldo -= valor_saque
+        extrato.append(-valor_saque)
+        qtd_operacao_saque_dia += 1
 
     return saldo
 
