@@ -125,46 +125,49 @@ def depositar(valor: float, saldo: float, extrato: str):
 
 
 def sacar(
-    *,
     saldo: float,
     valor_saque: float,
-    extrato: str,
-    numero_saque: int,
-    limite_valor_saque_diario,
+    extrato: list,
+    qtd_operacao_saque_dia: int,
     limite_valor_saque_operacao: float,
 ) -> str:
     """Função para realizar saque em conta bancária
+        Requisitos:
         Limite de 3 saques diários
         Limite no valor do saque de R$ 500,00
         Não havendo saldo, retornar uma msg informando que não há saldo para o saque
 
     Args (keyword only - chave valor):
-        saldo (float): Montante financeira do cliente disponivel para 
+        saldo (float): Montante financeira do cliente disponivel para
                     operações de saque, pagamentos.
-        valor (float): Financeiro solicitado para sacar.
+        valor_saque (float): Financeiro solicitado para sacar.
         extrato (str): Impressão do hitorico de transações na conta.
-        limite_valor_saque_diario (_type_): Limite para sacar no dia.
-        numero_saque (int): Nímero de operações de saque por dia
-        limite_saque_operacao (float): Valor máximo para sacar no dia.
+        limite_valor_saque_dia (float): Limite para sacar no dia (soma total).
+        qtd_operacao_saque_dia (int): Número de operações de saque por dia
+        limite_valor_saque_operacao (float): Valor máximo para sacar no dia.
 
     Returns:
         str: Extrato impresso.
     """
+    
+    excedeu_saldo = valor_saque > saldo
+    excedeu_qtd_operacao_saque_dia = qtd_operacao_saque_dia > LIMITE_SAQUES
+    excedeu_valor_saque = valor_saque > limite_valor_saque_operacao
 
-    numero_saques += 1
-    if numero_saques > LIMITE_SAQUES:
-        print('Sque não permitito. Limite de três saques diários.')
+    if excedeu_qtd_operacao_saque_dia:
+        print('Saque não permitito. Limite de três saques diários.')
 
     else:
-        valor_saque = float(input('Valor do saque: '))
-        if valor_saque > limite_saque:
+        if excedeu_valor_saque:
             print('Saque indisponivel. Valor solicitado maior que o permitido.')
-        if valor_saque > saldo:
+        if excedeu_saldo:
             print('Saldo indisponivel.')
         else:
             saldo -= valor_saque
             extrato.append(-valor_saque)
-    return (saldo, extrato)
+            qtd_operacao_saque_dia += 1
+
+    return saldo
 
 
 def exibir_saldo(historico_transacao: list):

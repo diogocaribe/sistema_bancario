@@ -53,12 +53,11 @@ def test_menu(mocker):
 def test_sacar_sucesso(conta_info_sacar):
 
     resultado = sacar(
-        saldo=['saldo_inicial'],
-        valor_saque=['valor_saque'],
-        extrato=['extrato'],
-        qtd_saque_dia=['numero_saque'],
-        limite_saque_dia=['limite_valor_saque_diario'],
-        limite_saque_operacao=['limite_valor_saque_operacao'],
+        saldo=conta_info_sacar['saldo'],
+        valor_saque=conta_info_sacar['valor_saque'],
+        extrato=conta_info_sacar['extrato'],
+        qtd_operacao_saque_dia=conta_info_sacar['qtd_operacao_saque_dia'],
+        limite_valor_saque_operacao=conta_info_sacar['limite_valor_saque_operacao']
     )
 
     assert resultado == 800.0
@@ -67,8 +66,7 @@ def test_sacar_sucesso(conta_info_sacar):
 def test_limite_saques_diarios():
     saldo_inicial = 1000.0
     valor_saque = 200.0
-    extrato = []
-    numero_saque = 3
+    extrato = [],
     limite_valor_saque_diario = 1000.0
     limite_valor_saque_operacao = 500.0
 
@@ -76,9 +74,8 @@ def test_limite_saques_diarios():
         saldo=saldo_inicial,
         valor_saque=valor_saque,
         extrato=extrato,
-        numero_saques=numero_saques,
-        limite_saque_dia=limite_valor_saque_diario,
-        limite_saque_operacao=limite_valor_saque_operacao,
+        limite_valor_saque_dia=limite_valor_saque_diario,
+        limite_valor_saque_operacao=limite_valor_saque_operacao,
     )
 
     assert resultado == 'Saque não permitido. Limite de três saques diários.'
@@ -97,8 +94,8 @@ def test_valor_saque_excede_limite():
         valor_saque=valor_saque,
         extrato=extrato,
         numero_saques=numero_saques,
-        limite_saque_dia=limite_valor_saque_diario,
-        limite_saque_operacao=limite_valor_saque_operacao,
+        limite_valor_saque_dia=limite_valor_saque_diario,
+        limite_valor_saque_operacao=limite_valor_saque_operacao,
     )
 
     assert resultado == 'Saque indisponível. Valor solicitado maior que o permitido.'
@@ -117,8 +114,8 @@ def test_saldo_insuficiente():
         valor_saque=valor_saque,
         extrato=extrato,
         numero_saques=numero_saques,
-        limite_saque_dia=limite_valor_saque_diario,
-        limite_saque_operacao=limite_valor_saque_operacao,
+        limite_valor_saque_dia=limite_valor_saque_diario,
+        limite_valor_saque_operacao=limite_valor_saque_operacao,
     )
 
     assert resultado == 'Saldo indisponível.'
