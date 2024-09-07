@@ -127,11 +127,11 @@ def depositar(valor: float, saldo: float, extrato: str):
 def sacar(
     *,
     saldo: float,
-    valor: float,
+    valor_saque: float,
     extrato: str,
-    limite_valor_saque_diario,
     numero_saque: int,
-    limite_saque_operacao: float,
+    limite_valor_saque_diario,
+    limite_valor_saque_operacao: float,
 ) -> str:
     """Função para realizar saque em conta bancária
         Limite de 3 saques diários
