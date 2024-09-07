@@ -77,7 +77,7 @@ numero_saques = 0
 LIMITE_SAQUES = 3
 
 
-def menu():
+def menu(escolha=None):
     print('\n Escolha a opção desejada:')
     menu = """
         [d] Depositar
@@ -103,7 +103,7 @@ def numero_positivo(num: float) -> bool:
         return False
 
 
-def depositar(valor: float, saldo: float, extrato: str, /):
+def depositar(valor: float, saldo: float, extrato: str):
     """Função para depositar dinheiro na conta
 
     Args:
@@ -115,17 +115,42 @@ def depositar(valor: float, saldo: float, extrato: str, /):
     Returns:
         _type_: _description_
     """
-    if not numero_positivo(valor):
-        print('Depositos devem ser números positivos')
-        return 'Depositos devem ser números positivos'
 
     if numero_positivo(valor):
         saldo += valor
         historico_transacao.append((datetime.now(), valor))
         return valor, saldo
+    else:
+        return 'Não é um valor a ser creditado em conta.'
 
 
-def sacar(saldo, valor, extrato, limite, numero_saque, limite_saque):
+def sacar(
+    *,
+    saldo: float,
+    valor: float,
+    extrato: str,
+    limite_valor_saque_diario,
+    numero_saque: int,
+    limite_saque_operacao: float,
+) -> str:
+    """Função para realizar saque em conta bancária
+        Limite de 3 saques diários
+        Limite no valor do saque de R$ 500,00
+        Não havendo saldo, retornar uma msg informando que não há saldo para o saque
+
+    Args (keyword only - chave valor):
+        saldo (float): Montante financeira do cliente disponivel para 
+                    operações de saque, pagamentos.
+        valor (float): Financeiro solicitado para sacar.
+        extrato (str): Impressão do hitorico de transações na conta.
+        limite_valor_saque_diario (_type_): Limite para sacar no dia.
+        numero_saque (int): Nímero de operações de saque por dia
+        limite_saque_operacao (float): Valor máximo para sacar no dia.
+
+    Returns:
+        str: Extrato impresso.
+    """
+
     numero_saques += 1
     if numero_saques > LIMITE_SAQUES:
         print('Sque não permitito. Limite de três saques diários.')
@@ -146,7 +171,7 @@ def exibir_saldo(historico_transacao: list):
     return sum(tupla[1] for tupla in historico_transacao)
 
 
-def exibir_extrato():
+def exibir_extrato(historico_transacao: list, /, extrato: str = None):
     txt_cabecalho = '============ Extrato Conta Bancária ============'
     len_cabecalho = len(txt_cabecalho)
     rodape = '=' * len_cabecalho
@@ -160,8 +185,7 @@ def exibir_extrato():
         print(rodape)
         print('\n ')
 
-
-    if  historico_transacao:
+    if historico_transacao:
         cabecalho
         for v in historico_transacao:
             data_hora = v[0].strftime('%d/%m/%Y %H:%M:%S')
