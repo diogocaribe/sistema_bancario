@@ -43,17 +43,6 @@ def test_menu(mocker):
 
 
 def test_depositar(setup_depositar):
-    """================================================
-        ============ Extrato Conta Bancária ============
-        ================================================
-        08/09/2024 07:15:23                  R$: 1000.00
-        ================================================
-                                        Saldo: R$ 1000.0
-        ================================================
-
-    Returns:
-        _type_: _description_
-    """
     resultado = depositar(
         setup_depositar['valor'],
         setup_depositar['saldo'],
@@ -63,17 +52,6 @@ def test_depositar(setup_depositar):
     assert resultado == (100.00, 600.00)
 
 def test_depositar_num_negativo(setup_depositar):
-    """================================================
-        ============ Extrato Conta Bancária ============
-        ================================================
-        08/09/2024 07:15:23                  R$: 1000.00
-        ================================================
-                                        Saldo: R$ 1000.0
-        ================================================
-
-    Returns:
-        _type_: _description_
-    """
     valor = -10.00
     resultado = depositar(
         valor,
@@ -82,6 +60,10 @@ def test_depositar_num_negativo(setup_depositar):
     )
 
     assert resultado == 'Não é um valor a ser creditado em conta.'
+
+
+def test_exibir_extrato(setup_exibir_extrato):
+    return NotImplemented
 
 
 def test_sacar_sucesso(setup_sacar):
