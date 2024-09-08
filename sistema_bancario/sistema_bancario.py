@@ -103,7 +103,7 @@ def numero_positivo(num: float) -> bool:
         return False
 
 
-def depositar(valor: float, saldo: float, extrato: str):
+def depositar(valor: float, saldo: float, historico_transacao: str):
     """Função para depositar dinheiro na conta
 
     Args:
@@ -122,6 +122,34 @@ def depositar(valor: float, saldo: float, extrato: str):
         return valor, saldo
     else:
         return 'Não é um valor a ser creditado em conta.'
+
+
+def exibir_extrato(historico_transacao: list, /, extrato: str = None):
+    txt_cabecalho = '============ Extrato Conta Bancária ============'
+    len_cabecalho = len(txt_cabecalho)
+    rodape = '=' * len_cabecalho
+
+    cabecalho = print(f'\n{rodape}\n{txt_cabecalho}\n{rodape}')
+
+    if not historico_transacao:
+        cabecalho
+        print('\n    Não há registro de transações na conta')
+        print('\n')
+        print(rodape)
+        print('\n ')
+
+    if historico_transacao:
+        cabecalho
+        for v in historico_transacao:
+            data_hora = v[0].strftime('%d/%m/%Y %H:%M:%S')
+            valor_ = f'R$: {v[1]:.2f}'
+            valor = f'{valor_:>28}'
+            print(f'{data_hora} {valor}')
+        print(rodape)
+
+        saldo = f'Saldo: R$ {exibir_saldo(historico_transacao)}'
+        print(f'{saldo:>48}')
+        print(rodape)
 
 
 def sacar(
@@ -171,39 +199,11 @@ def sacar(
         extrato.append(-valor_saque)
         qtd_operacao_saque_dia += 1
 
-    return saldo
+    return exibir_extrato(extrato)
 
 
 def exibir_saldo(historico_transacao: list):
     return sum(tupla[1] for tupla in historico_transacao)
-
-
-def exibir_extrato(historico_transacao: list, /, extrato: str = None):
-    txt_cabecalho = '============ Extrato Conta Bancária ============'
-    len_cabecalho = len(txt_cabecalho)
-    rodape = '=' * len_cabecalho
-
-    cabecalho = print(f'\n{rodape}\n{txt_cabecalho}\n{rodape}')
-
-    if not historico_transacao:
-        cabecalho
-        print('\n    Não há registro de transações na conta')
-        print('\n')
-        print(rodape)
-        print('\n ')
-
-    if historico_transacao:
-        cabecalho
-        for v in historico_transacao:
-            data_hora = v[0].strftime('%d/%m/%Y %H:%M:%S')
-            valor_ = f'R$: {v[1]:.2f}'
-            valor = f'{valor_:>28}'
-            print(f'{data_hora} {valor}')
-        print(rodape)
-
-        saldo = f'Saldo: R$ {exibir_saldo(historico_transacao)}'
-        print(f'{saldo:>48}')
-        print(rodape)
 
 
 def criar_usuario(usuario: str):
