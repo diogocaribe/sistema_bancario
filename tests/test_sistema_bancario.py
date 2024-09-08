@@ -75,7 +75,7 @@ def test_sacar_sucesso(setup_sacar):
     resultado = sacar(
         saldo=setup_sacar["saldo"],
         valor_saque=setup_sacar["valor_saque"],
-        extrato=setup_sacar["extrato"],
+        historico_trasacao=setup_sacar["extrato"],
         qtd_operacao_saque_dia=setup_sacar["qtd_operacao_saque_dia"],
         limite_valor_saque_operacao=setup_sacar["limite_valor_saque_operacao"],
     )
@@ -88,7 +88,7 @@ def test_excedeu_valor_saque(setup_sacar):
     resultado = sacar(
         saldo=setup_sacar["saldo"],
         valor_saque=valor_saque,
-        extrato=setup_sacar["extrato"],
+        historico_trasacao=setup_sacar["extrato"],
         qtd_operacao_saque_dia=setup_sacar["qtd_operacao_saque_dia"],
         limite_valor_saque_operacao=setup_sacar["limite_valor_saque_operacao"],
     )
@@ -101,7 +101,7 @@ def test_excedeu_saldo(setup_sacar):
     resultado = sacar(
         saldo=saldo,
         valor_saque=setup_sacar["valor_saque"],
-        extrato=setup_sacar["extrato"],
+        historico_trasacao=setup_sacar["extrato"],
         qtd_operacao_saque_dia=setup_sacar["qtd_operacao_saque_dia"],
         limite_valor_saque_operacao=setup_sacar["limite_valor_saque_operacao"],
     )
@@ -114,7 +114,7 @@ def test_excedeu_num_operacao(setup_sacar):
     resultado = sacar(
         saldo=setup_sacar["saldo"],
         valor_saque=setup_sacar["valor_saque"],
-        extrato=setup_sacar["extrato"],
+        historico_trasacao=setup_sacar["extrato"],
         qtd_operacao_saque_dia=qtd_operacao_saque_dia,
         limite_valor_saque_operacao=setup_sacar["limite_valor_saque_operacao"],
     )
@@ -132,5 +132,5 @@ def test_exibir_saldo():
 
 def test_exibir_saldo_sem_transacao():
     resultado = exibir_saldo()
-    esperado = 0
+    esperado = 0.0
     assert resultado == esperado

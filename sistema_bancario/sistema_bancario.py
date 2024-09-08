@@ -157,7 +157,7 @@ def sacar(
     valor_saque: float,
     qtd_operacao_saque_dia: int,
     limite_valor_saque_operacao: float,
-    extrato: list = historico_trasacao,
+    historico_trasacao: list = historico_trasacao,
 ) -> str:
     """Função para realizar saque em conta bancária
         Requisitos:
@@ -195,7 +195,7 @@ def sacar(
 
     else:
         saldo -= valor_saque
-        extrato.append(-valor_saque)
+        historico_trasacao.append((datetime.now(), -valor_saque))
         qtd_operacao_saque_dia += 1
 
     # print(exibir_extrato(extrato))
@@ -203,10 +203,10 @@ def sacar(
 
 
 def exibir_saldo(historico_transacao: list = historico_trasacao):
-    if not historico_transacao:
-        return 0
-    else:
+    if historico_transacao:
         return sum(tupla[1] for tupla in historico_transacao)
+    else:
+        return 0.0
 
 
 def criar_usuario(usuario: str):
