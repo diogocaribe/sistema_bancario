@@ -1,5 +1,5 @@
 import pytest
-
+from datetime import datetime
 
 @pytest.fixture
 def setup_sacar():
@@ -13,8 +13,12 @@ def setup_sacar():
 
 @pytest.fixture
 def setup_depositar():
+    extrato = [
+        (datetime(2024, 9, 1, 10, 0, 0), 100.00),
+        (datetime(2024, 9, 2, 15, 30, 0), 10.00)
+    ]
     return {
         'valor': 100.0,
         'saldo': 500.0,
-        'historico_transacao': [400.00, 100.00]
+        'extrato': extrato
     }

@@ -2,9 +2,8 @@ from sistema_bancario import (
     depositar,
     sacar,
     exibir_saldo,
-    historico_transacao,
     menu,
-    exibir_extrato,
+    exibir_extrato
 )
 
 
@@ -15,13 +14,15 @@ while True:
         valor = float(input('\n Valor do depósito R$: '))
         depositar(
             valor,
-            exibir_saldo(historico_transacao),
-            exibir_extrato(historico_transacao),
-        )
+            exibir_saldo())
         continue
 
     if opcao == 's':
-        sacar()
+        valor = float(input('\n Valor do depósito R$: '))
+        sacar(saldo=exibir_saldo(),
+              valor_saque=valor,
+              qtd_operacao_saque_dia=1,
+              limite_valor_saque_operacao=500.0)
 
     if opcao == 'e':
         exibir_extrato()

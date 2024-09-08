@@ -72,7 +72,7 @@ Operações:
 
 sacar = 0
 limite_saque = 500
-historico_transacao = []
+historico_trasacao = []
 numero_saques = 0
 LIMITE_SAQUES = 3
 
@@ -103,7 +103,7 @@ def numero_positivo(num: float) -> bool:
         return False
 
 
-def depositar(valor: float, saldo: float, historico_transacao: str):
+def depositar(valor: float, saldo: float, historico_transacao: list = historico_trasacao):
     """Função para depositar dinheiro na conta
 
     Args:
@@ -124,7 +124,7 @@ def depositar(valor: float, saldo: float, historico_transacao: str):
         return 'Não é um valor a ser creditado em conta.'
 
 
-def exibir_extrato(historico_transacao: list, /, extrato: str = None):
+def exibir_extrato(historico_transacao: list = historico_trasacao) -> None:
     txt_cabecalho = '============ Extrato Conta Bancária ============'
     len_cabecalho = len(txt_cabecalho)
     rodape = '=' * len_cabecalho
@@ -155,9 +155,9 @@ def exibir_extrato(historico_transacao: list, /, extrato: str = None):
 def sacar(
     saldo: float,
     valor_saque: float,
-    extrato: list,
     qtd_operacao_saque_dia: int,
     limite_valor_saque_operacao: float,
+    extrato: list = historico_trasacao,
 ) -> str:
     """Função para realizar saque em conta bancária
         Requisitos:
@@ -169,8 +169,7 @@ def sacar(
         saldo (float): Montante financeira do cliente disponivel para
                     operações de saque, pagamentos.
         valor_saque (float): Financeiro solicitado para sacar.
-        extrato (str): Impressão do hitorico de transações na conta.
-        limite_valor_saque_dia (float): Limite para sacar no dia (soma total).
+        extratohistorico_transacao (str): Impressão do hitorico de transações na conta.
         qtd_operacao_saque_dia (int): Número de operações de saque por dia
         limite_valor_saque_operacao (float): Valor máximo para sacar no dia.
 
@@ -199,11 +198,15 @@ def sacar(
         extrato.append(-valor_saque)
         qtd_operacao_saque_dia += 1
 
-    return exibir_extrato(extrato)
+    # print(exibir_extrato(extrato))
+    return saldo
 
 
-def exibir_saldo(historico_transacao: list):
-    return sum(tupla[1] for tupla in historico_transacao)
+def exibir_saldo(historico_transacao: list = historico_trasacao):
+    if not historico_transacao:
+        return 0
+    else:
+        return sum(tupla[1] for tupla in historico_transacao)
 
 
 def criar_usuario(usuario: str):
